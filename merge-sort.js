@@ -3,12 +3,8 @@
 
 var i,
   j,
-  maxVal,
-  orderedList,
-  start,
-  end,
-  time,
-  getRandomNumbers = require('./getRandomNumbers');
+  remaining,
+  sortRandomNumbers = require('./sortRandomNumbers');
 
 // push all elements of an array into another
 Array.prototype.pushAll = function (valuesArray) {
@@ -47,7 +43,7 @@ function merge(left, right) {
     } else {
       mergedList.push(rightValue);
       idxRight = idxRight + 1;
-  }
+    }
   }
 
   return mergedList;
@@ -97,13 +93,8 @@ console.log('Original:' + list);
 console.log('Sorted:' + sort(list));
 
 // test with random numbers
-getRandomNumbers(function (list) {
-  start = new Date().getTime();
-  orderedList = sort(list);
-  end = new Date().getTime();
-  time = end - start;
-
-  console.log('Original list:' + list);
-  console.log('Sorted list:' + orderedList);
+// sort using `sort` subroutine
+sortRandomNumbers(sort, function (sortedList, time) {
+  console.log('Sorted list:' + sortedList);
   console.log('Execution time:' + time);
 });
