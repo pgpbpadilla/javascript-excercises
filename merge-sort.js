@@ -20,6 +20,7 @@ Array.prototype.pushAll = function (valuesArray) {
 
 function merge(left, right) {
   var mergedList = [],
+    remaining = left.length + right.length,
     // keep a reference to the position of the next
     // element to be compared in each list
     idxLeft = 0,
@@ -27,8 +28,12 @@ function merge(left, right) {
     leftValue, // current element in the left list
     rightValue; // current element in the right list
 
+  // add sentinels to both lists
+  left.push(Number.POSITIVE_INFINITY);
+  right.push(Number.POSITIVE_INFINITY);
+
   // while there are more elements in both lists
-  while (idxLeft < left.length && idxRight < right.length) {
+  for (j = 0; j < remaining; j = j + 1) {
     // find the smallest element of the two elements
     // at the specified positions of the lists
 
@@ -36,37 +41,13 @@ function merge(left, right) {
     leftValue = left[idxLeft];
     rightValue = right[idxRight];
 
-    if (leftValue < rightValue) { // push the element of the left list
+    if (leftValue <= rightValue) {
       mergedList.push(leftValue);
-      // move to the next element in the left list
       idxLeft = idxLeft + 1;
-    } else if (rightValue < leftValue) { // push the element of the right list
+    } else {
       mergedList.push(rightValue);
-      // move to the next element in the right list
       idxRight = idxRight + 1;
-    } else if (leftValue === rightValue) { // push the current element of both lists
-      mergedList.push(leftValue);
-      mergedList.push(rightValue);
-      // move to the next element in both lists
-      idxLeft = idxLeft + 1;
-      idxRight = idxRight + 1;
-    }
-    // continue until you reach the end of both lists
   }
-
-  // there are no more elements in the left list
-  if (idxLeft === left.length
-      // and there are elements in the right list
-      && idxRight < right.length) {
-    // push all the remaining elements of the right list
-    mergedList.pushAll(right.slice(idxRight));
-
-    // there are no more elements in the right list
-  } else if (idxRight === right.length
-      // there are more elements in the left list
-      && idxLeft < left.length) {
-    // push all remaining elemens of the left list
-    mergedList.pushAll(left.slice(idxLeft));
   }
 
   return mergedList;
