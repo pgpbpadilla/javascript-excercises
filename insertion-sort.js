@@ -1,6 +1,14 @@
 /*jslint indent:2*/
 'use strict';
 
+var j,
+  maxVal,
+  orderedList,
+  start,
+  end,
+  time,
+  getRandomNumbers = require('./getRandomNumbers');
+
 function sort(list) {
   var i,
     j,
@@ -44,3 +52,15 @@ console.log('Sorted:' + sort(list));
 list = [72, 4, 69, 5, 43, 8, 7, 25, 0, -12, -45, 5, 7, -2];
 console.log('Original:' + list);
 console.log('Sorted:' + sort(list));
+
+// test with random numbers
+getRandomNumbers(function (list) {
+  start = new Date().getTime();
+  orderedList = sort(list);
+  end = new Date().getTime();
+  time = end - start;
+
+  console.log('Original list:' + list);
+  console.log('Sorted list:' + orderedList);
+  console.log('Execution time:' + time);
+});

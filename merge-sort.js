@@ -1,7 +1,15 @@
 /*jslint indent:2*/
 'use strict';
 
-var i;
+var i,
+  j,
+  maxVal,
+  orderedList,
+  start,
+  end,
+  time,
+  getRandomNumbers = require('./getRandomNumbers');
+
 // push all elements of an array into another
 Array.prototype.pushAll = function (valuesArray) {
   for (i = 0; i < valuesArray.length; i = i + 1) {
@@ -14,53 +22,51 @@ function merge(left, right) {
   var mergedList = [],
     // keep a reference to the position of the next
     // element to be compared in each list
-    posNextLeft = 0,
-    posNextRight = 0,
-    // at most we have the sum of the number
-    // of elements in each list
-    remaining = left.length + right.length,
-    nextLeft, // next element in the left list
-    nextRight; // next element in the right list
+    idxLeft = 0,
+    idxRight = 0,
+    leftValue, // current element in the left list
+    rightValue; // current element in the right list
 
   // while there are more elements in both lists
-  while (posNextLeft < left.length && posNextRight < right.length) {
+  while (idxLeft < left.length && idxRight < right.length) {
     // find the smallest element of the two elements
     // at the specified positions of the lists
 
     // get the next element of each list
-    nextLeft = left[posNextLeft];
-    nextRight = right[posNextRight];
+    leftValue = left[idxLeft];
+    rightValue = right[idxRight];
 
-    if (nextLeft < nextRight) { // push the element of the left list
-      mergedList.push(nextLeft);
+    if (leftValue < rightValue) { // push the element of the left list
+      mergedList.push(leftValue);
       // move to the next element in the left list
-      posNextLeft = posNextLeft + 1;
-      remaining = remaining - 1;
-    } else if (nextRight < nextLeft) { // push the element of the right list
-      mergedList.push(nextRight);
+      idxLeft = idxLeft + 1;
+    } else if (rightValue < leftValue) { // push the element of the right list
+      mergedList.push(rightValue);
       // move to the next element in the right list
-      posNextRight = posNextRight + 1;
-      remaining = remaining - 1;
-    } else if (nextLeft === nextRight) { // push the current element of both lists
-      mergedList.push(nextLeft);
-      mergedList.push(nextRight);
+      idxRight = idxRight + 1;
+    } else if (leftValue === rightValue) { // push the current element of both lists
+      mergedList.push(leftValue);
+      mergedList.push(rightValue);
       // move to the next element in both lists
-      posNextLeft = posNextLeft + 1;
-      posNextRight = posNextRight + 1;
-      remaining = remaining - 2;
+      idxLeft = idxLeft + 1;
+      idxRight = idxRight + 1;
     }
     // continue until you reach the end of both lists
   }
 
   // there are no more elements in the left list
-  if (posNextLeft === left.length) {
+  if (idxLeft === left.length
+      // and there are elements in the right list
+      && idxRight < right.length) {
     // push all the remaining elements of the right list
-    mergedList.pushAll(right.slice(posNextRight));
+    mergedList.pushAll(right.slice(idxRight));
 
     // there are no more elements in the right list
-  } else if (posNextRight === right.length) {
+  } else if (idxRight === right.length
+      // there are more elements in the left list
+      && idxLeft < left.length) {
     // push all remaining elemens of the left list
-    mergedList.pushAll(left.slice(posNextLeft));
+    mergedList.pushAll(left.slice(idxLeft));
   }
 
   return mergedList;
@@ -78,16 +84,16 @@ function sort(list) {
     return list;
   }
 
-  // for lists with more than one elements
+  // for lists with more than one element
   // find the middle of the list
   middle = Math.ceil(list.length / 2);
 
   // recursively sort the left and right parts of the list
-  // then merge the result
   // the left list includes all elements from 0 to middle-1
   left = sort(list.slice(0, middle));
   // the right list includes all elements from middle to list.length
   right = sort(list.slice(middle, list.length));
+  // then merge the result
   orderedList = merge(left, right);
 
   return orderedList;
@@ -108,3 +114,15 @@ console.log('Sorted:' + sort(list));
 list = [72, -4, -69, 5, 43];
 console.log('Original:' + list);
 console.log('Sorted:' + sort(list));
+
+// test with random numbers
+getRandomNumbers(function (list) {
+  start = new Date().getTime();
+  orderedList = sort(list);
+  end = new Date().getTime();
+  time = end - start;
+
+  console.log('Original list:' + list);
+  console.log('Sorted list:' + orderedList);
+  console.log('Execution time:' + time);
+});
