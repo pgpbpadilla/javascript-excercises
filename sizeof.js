@@ -1,4 +1,4 @@
-function roughSizeOfObject( object ) {
+function sizeof( object ) {
 
     var objectList = [];
     var stack = [ object ];
