@@ -1,7 +1,7 @@
 /*jslint indent:2*/
 'use strict';
 
-// returns an array with the first n fibonnaci numbers
+// returns an array with the first n Fibonnaci numbers
 // Uses an iterative algorithm
 function iterFibonacci(n) {
   var i,
@@ -29,6 +29,9 @@ function iterFibonacci(n) {
   return fib;
 }
 
+// Returns the first n Fibonacci numbers
+// @param n The number of Fibonacci numbers to return
+// @param memoization true if you want to use cache, false otherwise
 function recursiveFibonacci(n, memoization) {
 
   var cache = [1, 1],// memoization cache
@@ -83,10 +86,10 @@ prompt.get(['max', 'memoization'], function (err, result) {
   if (err) {
     console.log(err);
   }
-  memoization = ('true' === result.memoization ? true : false);
+
   console.log('Iterative:');
   start = new Date().getTime();
-  results = iterFibonacci(parseInt(result.max, 10), memoization);
+  results = iterFibonacci(parseInt(result.max, 10));
   end = new Date().getTime();
   console.log(results.join(', '));
   timeIter = end - start;
@@ -95,6 +98,7 @@ prompt.get(['max', 'memoization'], function (err, result) {
   start = 0;
   end = 0;
 
+  memoization = ('true' === result.memoization ? true : false);
   console.log('Recursive:');
   start = new Date().getTime();
   results = recursiveFibonacci(parseInt(result.max, 10), memoization);
