@@ -29,17 +29,20 @@ function iterFibonacci(n) {
   return fib;
 }
 
-function recursiveFibonacci(n) {
+function recursiveFibonacci(n, memoization) {
 
-  var cache = [1, 1],// use memoization
+  var cache = [1, 1],// memoization cache
     fib = [],
     i = 0,
     currentFib;
 
-  // return the n-th Fibonacci number
-  function nthFib(nth) {
+  // Returns the n-th Fibonacci number,
+  // @param nth {number} The cardinal of the desired Fibonacci number
+  // @param memoization {bool} true if you want to use memoization
+  function nthFib(nth, memoization) {
     // we've calculated this element before
-    if (cache[nth] && typeof cache[nth] === 'number') {
+    if (true === memoization
+        && cache[nth] && typeof cache[nth] === 'number') {
       return cache[nth];
     }
 
@@ -49,16 +52,18 @@ function recursiveFibonacci(n) {
     }
 
     // Divide et impera
-    currentFib = nthFib(nth - 1) + nthFib(nth - 2);
-    // add element to cache
-    cache.push(currentFib);
+    currentFib = nthFib(nth - 1, memoization) + nthFib(nth - 2, memoization);
+    if (true === memoization) {
+      // add element to cache
+      cache.push(currentFib);
+    }
     return currentFib;
   }
 
   // add all Fibonacci numbers to an array.
   for (i = 0; i < n; i = i + 1) {
     // add the nth Fibonacdi number
-    fib.push(nthFib(i));
+    fib.push(nthFib(i, memoization));
   }
 
   return fib;
@@ -70,16 +75,18 @@ var prompt = require('prompt'),
   start,
   end,
   timeIter = 0,
-  timeRecursive = 0;
+  timeRecursive = 0,
+  memoization;
 
 console.log('How many Fibonacci numbers?');
-prompt.get(['max'], function (err, result) {
+prompt.get(['max', 'memoization'], function (err, result) {
   if (err) {
     console.log(err);
   }
+  memoization = ('true' === result.memoization ? true : false);
   console.log('Iterative:');
   start = new Date().getTime();
-  results = iterFibonacci(parseInt(result.max, 10));
+  results = iterFibonacci(parseInt(result.max, 10), memoization);
   end = new Date().getTime();
   console.log(results.join(', '));
   timeIter = end - start;
@@ -90,7 +97,7 @@ prompt.get(['max'], function (err, result) {
 
   console.log('Recursive:');
   start = new Date().getTime();
-  results = recursiveFibonacci(parseInt(result.max, 10));
+  results = recursiveFibonacci(parseInt(result.max, 10), memoization);
   end = new Date().getTime();
   console.log(results.join(', '));
   timeRecursive = end - start;
