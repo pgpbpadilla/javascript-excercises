@@ -4,7 +4,7 @@
 var i,
   j,
   remaining,
-  sortRandomNumbers = require('./sortRandomNumbers');
+  sortRandomNumbers = require('../utils/sortRandomNumbers');
 
 // push all elements of an array into another
 Array.prototype.pushAll = function (valuesArray) {

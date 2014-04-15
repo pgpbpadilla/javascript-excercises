@@ -8,7 +8,7 @@ module.exports = (function () {
       j;
 
     for (j = 0; j < maxVal; j = j + 1) {
-      sign = Math.random() > 0.5 ? 1 : -1;
+      sign = Math.random() >= 0.5 ? 1 : -1;
       list.push(sign * Math.floor((Math.random() * maxVal) + 1));
     }
 

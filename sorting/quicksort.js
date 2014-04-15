@@ -72,7 +72,7 @@ function sort(elements, start, end) {
 
 var list = [2, 4, 9, 5, 3, 8, 7, 5],
   prompt = require('prompt'),
-  sortRandomNumbers = require('./sortRandomNumbers'),
+  sortRandomNumbers = require('../utils/sortRandomNumbers'),
   start,
   end,
   time;

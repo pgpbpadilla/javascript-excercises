@@ -1,7 +1,7 @@
 /*jslint indent:2*/
 'use strict';
 
-var sortRandomNumbers = require('./sortRandomNumbers');
+var sortRandomNumbers = require('../utils/sortRandomNumbers');
 
 function sort(list) {
   var i,
