@@ -94,7 +94,7 @@ console.log('Sorted:' + sort(list));
 
 // test with random numbers
 // sort using `sort` subroutine
-sortRandomNumbers(sort, function (sortedList, time) {
+sortRandomNumbers.sortRandomNumbers(sort, function (sortedList, time) {
   console.log('Sorted list:' + sortedList);
   console.log('Execution time:' + time);
 });
