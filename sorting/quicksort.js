@@ -104,15 +104,16 @@ prompt.get(['maxVal'], function (err, result) {
     console.log(err);
   }
 
-  list = sortRandomNumbers.genRandNumbers(parseInt(result.maxVal, 10));
+  sortRandomNumbers.genRandNumbers(parseInt(result.maxVal, 10), function (list) {
+    console.log('Original:' + list);
+    start = new Date().getTime();
+    sort(list, 0, list.length - 1);
+    end = new Date().getTime();
 
-  start = new Date().getTime();
-  sort(list, 0, list.length - 1);
-  end = new Date().getTime();
+    console.log('Sorted:' + list);
+    time = end - start;
 
-  console.log('Sorted:' + list);
-  time = end - start;
-
-  console.log('Execution time: ' + time);
+    console.log('Execution time: ' + time);
+  });
 });
 

@@ -2,22 +2,23 @@
 'use strict';
 
 module.exports = (function () {
-  function genRandNumbers(maxVal) {
-    var list = [],
-      sign,
-      j;
+  function genRandNumbers(maxVal, next) {
+    var random = require('node-random');
 
-    for (j = 0; j < maxVal; j = j + 1) {
-      sign = Math.random() >= 0.5 ? 1 : -1;
-      list.push(sign * Math.floor((Math.random() * maxVal) + 1));
-    }
-
-    return list;
+    random.numbers({
+      number: maxVal,
+      minimum: -maxVal,
+      maximum: maxVal
+    }, function (error, data) {
+      if (error) {
+        console.log(error);
+      }
+      next(data);
+    });
   }
 
   function sortRandomNumbers(sortFunc, next) {
     var prompt = require('prompt'),
-      list = [],
       start,
       end,
       time,
@@ -32,16 +33,15 @@ module.exports = (function () {
         process.exit(1);
       }
 
-      list = genRandNumbers(parseInt(result.maxVal, 10));
-
-      // measure the execution time
-      start = new Date().getTime();
-      sortedList = sortFunc(list);
-      end = new Date().getTime();
-      time = end - start;
-
-      console.log('Original list:' + list);
-      next(sortedList, time);
+      genRandNumbers(parseInt(result.maxVal, 10), function (list) {
+        console.log('Original list:' + list);
+        // measure the execution time
+        start = new Date().getTime();
+        sortedList = sortFunc(list);
+        end = new Date().getTime();
+        time = end - start;
+        next(sortedList, time);
+      });
     });
   }
   return { genRandNumbers: genRandNumbers,
