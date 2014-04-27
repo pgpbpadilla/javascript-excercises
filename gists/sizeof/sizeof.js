@@ -1,34 +1,35 @@
+/*jslint indent:2*/
 /** Taken from: http://stackoverflow.com/a/11900218/400544 */
-function sizeof( object ) {
 
-    var objectList = [];
-    var stack = [ object ];
-    var bytes = 0;
+'use strict';
 
-    while ( stack.length ) {
-        var value = stack.pop();
+module.exports = function (object) {
 
-        if ( typeof value === 'boolean' ) {
-            bytes += 4;
-        }
-        else if ( typeof value === 'string' ) {
-            bytes += value.length * 2;
-        }
-        else if ( typeof value === 'number' ) {
-            bytes += 8;
-        }
-        else if
-        (
-            typeof value === 'object'
-            && objectList.indexOf( value ) === -1
-        )
-        {
-            objectList.push( value );
+  var objectList = [],
+    stack = [ object ],
+    bytes = 0,
+    value,
+    i;
 
-            for( var i in value ) {
-                stack.push( value[ i ] );
-            }
+  while (stack.length) {
+    value = stack.pop();
+
+    if (typeof value === 'boolean') {
+      bytes += 4;
+    } else if (typeof value === 'string') {
+      bytes += value.length * 2;
+    } else if (typeof value === 'number') {
+      bytes += 8;
+    } else if (typeof value === 'object'
+        && objectList.indexOf(value) === -1) {
+      objectList.push(value);
+
+      for (i in value) {
+        if (value.hasOwnProperty(i)) {
+          stack.push(value[i]);
         }
+      }
     }
-    return bytes;
-}
+  }
+  return bytes;
+};

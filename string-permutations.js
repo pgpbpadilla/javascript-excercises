@@ -75,7 +75,7 @@ function printWords(stringArray) {
 
 var myWord = 'a',
   prompt = require('prompt'),
-  sizeof = require('./utils/sizeof');
+  sizeof = require('./gists/sizeof/sizeof');
 
 console.log('Setup:');
 prompt.get(['string', 'memoization'], function (err, result) {
