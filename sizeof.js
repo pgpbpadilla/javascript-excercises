@@ -1,3 +1,4 @@
+/** Taken from: http://stackoverflow.com/a/11900218/400544 */
 function sizeof( object ) {
 
     var objectList = [];
