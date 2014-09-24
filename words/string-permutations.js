@@ -15,10 +15,10 @@ var memory = {},
 function findAllWords(string, memoization) {
   var allWords = [],
     i,
-    firstChar = '',
+    prefix = '',
     wordsWithSubstring,
-    remainingChars,
-    j;
+    wordsWithPrefix,
+    remainingChars;
 
   // count the number calls to this function 
   callsToFunction = callsToFunction + 1;
@@ -38,20 +38,27 @@ function findAllWords(string, memoization) {
     return [string];
   }
 
+  function getAllWordsWithPrefix(prefix, words) {
+    var result = [];
+    words.forEach(function (item) {
+      result.push(prefix + item);
+    });
+
+    return result;
+  }
   // the string has at least 2 characters
   // chose one char and put that in the first position
   for (i = 0; i < string.length; i = i + 1) {
     // fix the first character
-    firstChar = string.charAt(i);
+    prefix = string.charAt(i);
     // then recursively find all posible words with the
     // remaining characters
     remainingChars = string.substr(0, i) + string.substr(i + 1);
     wordsWithSubstring = findAllWords(remainingChars, memoization);
 
-    // add all words that begin with the `firstChar`
-    for (j = 0; j < wordsWithSubstring.length; j = j + 1) {
-      allWords.push(firstChar + wordsWithSubstring[j]);
-    }
+    // add all words that begin with the `prefix`
+    wordsWithPrefix = getAllWordsWithPrefix(prefix, wordsWithSubstring);
+    allWords = allWords.concat(wordsWithPrefix);
   }
 
   if ('true' === memoization) {
