@@ -75,7 +75,7 @@ function printWords(stringArray) {
 
 var myWord = 'a',
   prompt = require('prompt'),
-  sizeof = require('./gists/sizeof/sizeof');
+  sizeof = require('../gists/sizeof/sizeof');
 
 console.log('Setup:');
 prompt.get(['string', 'memoization'], function (err, result) {
@@ -84,7 +84,7 @@ prompt.get(['string', 'memoization'], function (err, result) {
     console.log(err);
   } else {
     found = findAllWords(result.string, result.memoization);
-    printWords(found);
+    console.log(found);
     console.log(found.length + ' words found.');
     console.log('Calls to `findAllWords`:' + callsToFunction);
     console.log('Memory used: ' + sizeof(memory));
