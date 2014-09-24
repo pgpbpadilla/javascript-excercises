@@ -61,18 +61,6 @@ function findAllWords(string, memoization) {
   return allWords;
 }
 
-function printWords(stringArray) {
-  var i,
-    words = '';
-  for (i = 0; i < stringArray.length; i = i + 1) {
-    words += stringArray[i];
-    if (i < stringArray.length - 1) {
-      words += ',';
-    }
-  }
-  console.log(words);
-}
-
 var myWord = 'a',
   prompt = require('prompt'),
   sizeof = require('../gists/sizeof/sizeof');
