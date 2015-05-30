@@ -1,0 +1,18 @@
+<html>
+  <body>
+    <button id="fetch">Fetch</button>
+    
+    <script type="text/javascript" src="http.js"></script>
+    <script type="text/javascript" src="fetchMdnAPI.js"></script>
+
+    <script type="text/javascript">
+      window.onload = function () {
+        var btn = document.getElementById('fetch');
+
+        btn.onclick = function () {
+          fetchMdnAPI($http);
+        };
+      };
+    </script>
+  </body>
+</html>
