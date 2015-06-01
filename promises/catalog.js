@@ -11,7 +11,7 @@
       categories;
 
     this.getCategoryById = function (id) {
-      var found;
+      var found, category;
 
       // id, object_type, stat_name, display_name
       found = categories.find(function (element, index, array) {
@@ -21,17 +21,25 @@
 
         return false;
       });
+
+      if (undefined !== found) {
+        category = {
+          id: found[0],
+          object_type: found[1],
+          stat_name: found[2],
+          display_name: found[3]
+        };
+      }
       
-      return found;
+      return category;
     };
 
     this.getCategoryByStatString = function (statString) {
-      
     };
 
     this.getMetricById = function (id) {
 
-      var found;
+      var found, metric;
 
       // id, category_id, field_name, display_name
       found = metrics.find(function (element, index, array) {
@@ -42,7 +50,16 @@
         return false;
       });
 
-      return found;
+      if (undefined !== found) {
+        metric = {
+          id: found[0], 
+          category_id: found[1],
+          field_name: found[2],
+          display_name: found[3]
+        };
+      }
+
+      return metric;
     };
 
     this.getMetricByStatString = function (statString) {
