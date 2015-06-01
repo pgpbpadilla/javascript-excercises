@@ -7,6 +7,18 @@
 
   window.onload = function () {
 
+    function addRow(data) {
+
+      console.log(data);
+
+      var div = document.createElement('div');
+
+      div.textContent = JSON.stringify(data);
+
+      document.body.appendChild(div);
+
+    }
+
     function testLookups(catalog) {
       var category1,
         category2,
@@ -37,7 +49,8 @@
       btnMetricByStatString,
       txtMetricStat,
       btnCategoryByStatString,
-      txtCategoryStat;
+      txtCategoryStat,
+      data;
 
     btnMetricById = document.getElementById('metric-by-id');
     txtMetricId = document.getElementById('metric-id');
@@ -56,22 +69,26 @@
 
         btnMetricById.onclick = function () {
           var id = parseInt(txtMetricId.value, 10);
-          console.log(myCatalog.getMetricById(id));
+          data = myCatalog.getMetricById(id);
+          addRow(data);
         };
 
         btnCategoryById.onclick = function () {
           var id = parseInt(txtCategoryId.value, 10);
-          console.log(myCatalog.getCategoryById(id));
+          data = myCatalog.getCategoryById(id);
+          addRow(data);
         };
 
         btnMetricByStatString.onclick = function () {
           var stat = txtMetricStat.value;
-          console.log(myCatalog.getMetricByStatString(stat));
+          data = myCatalog.getMetricByStatString(stat);
+          addRow(data);
         };
 
         btnCategoryByStatString.onclick = function () {
           var stat = txtCategoryStat.value;
-          console.log(myCatalog.getCategoryByStatString(stat));
+          data = myCatalog.getCategoryByStatString(stat);
+          addRow(data);
         };
 
         testLookups(myCatalog);
