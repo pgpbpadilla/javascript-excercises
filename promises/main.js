@@ -31,14 +31,22 @@
 
     var myCatalog,
       btnMetricById,
+      txtMetricId,
       btnCategoryById,
+      txtCategoryId,
       btnMetricByStatString,
-      btnCategoryByStatString;
+      txtMetricStat,
+      btnCategoryByStatString,
+      txtCategoryStat;
 
     btnMetricById = document.getElementById('metric-by-id');
+    txtMetricId = document.getElementById('metric-id');
     btnCategoryById = document.getElementById('category-by-id');
+    txtCategoryId = document.getElementById('category-id');
     btnMetricByStatString = document.getElementById('metric-by-stat');
+    txtMetricStat = document.getElementById('metric-stat');
     btnCategoryByStatString = document.getElementById('category-by-stat');
+    txtCategoryStat = document.getElementById('category-stat');
 
 
     myCatalog = new window.Catalog();
@@ -47,19 +55,23 @@
       .then(function (value) {
 
         btnMetricById.onclick = function () {
-          console.log(myCatalog.getMetricById(3));
+          var id = parseInt(txtMetricId.value, 10);
+          console.log(myCatalog.getMetricById(id));
         };
 
         btnCategoryById.onclick = function () {
-          console.log(myCatalog.getCategoryById(2));
+          var id = parseInt(txtCategoryId.value, 10);
+          console.log(myCatalog.getCategoryById(id));
         };
 
         btnMetricByStatString.onclick = function () {
-          console.log(myCatalog.getMetricByStatString());
+          var stat = parseInt(txtMetricStat.value, 10);
+          console.log(myCatalog.getMetricByStatString(stat));
         };
 
         btnCategoryByStatString.onclick = function () {
-          console.log(myCatalog.getCategoryByStatString());
+          var stat = parseInt(txtCategoryStat.value, 10);
+          console.log(myCatalog.getCategoryByStatString(stat));
         };
 
         //testLookups(myCatalog);

@@ -1,22 +1,23 @@
 <html>
   <body>
     <div>
-      Id:<input value="2"/>
+      Id:<input value="2" id="category-id"/>
       <button id="category-by-id">Get category</button>
     </div>
     <div>
-      Id:<input value="3"/>
+      Id:<input value="3" id="metric-id"/>
       <button id="metric-by-id">Get metric</button>
     </div>
     <div>
-      Stat:<input value="extrahop.device.dns:req" style="width:200px"/>
+      Stat:<input value="extrahop.device.dns:req" id="category-stat" style="width:200px"/>
       <button id="category-by-stat">Get category</button>
     </div>
     <div>
-      Stat:<input value="extrahop.device.dns:req" style="width:200px"/>
+      Stat:<input value="extrahop.device.dns:req" id="metric-stat" style="width:200px"/>
       <button id="metric-by-stat">Get metric</button>
     </div>
     
+    <script type="text/javascript" src="array-find-polyfill.js"></script>
     <script type="text/javascript" src="catalog-api.js"></script>
     <script type="text/javascript" src="catalog.js"></script>
     <script type="text/javascript" src="main.js"></script>
