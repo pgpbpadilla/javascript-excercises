@@ -7,10 +7,10 @@
 
   window.onload = function () {
 
-    function testLookups (catalog) {
-      var category1, 
-        category2, 
-        metric1, 
+    function testLookups(catalog) {
+      var category1,
+        category2,
+        metric1,
         metric2;
 
       category1 = catalog.getCategoryById(1);
@@ -52,7 +52,7 @@
     myCatalog = new window.Catalog();
 
     myCatalog.initialize()
-      .then(function (value) {
+      .then(function () {
 
         btnMetricById.onclick = function () {
           var id = parseInt(txtMetricId.value, 10);
@@ -65,16 +65,16 @@
         };
 
         btnMetricByStatString.onclick = function () {
-          var stat = parseInt(txtMetricStat.value, 10);
+          var stat = txtMetricStat.value;
           console.log(myCatalog.getMetricByStatString(stat));
         };
 
         btnCategoryByStatString.onclick = function () {
-          var stat = parseInt(txtCategoryStat.value, 10);
+          var stat = txtCategoryStat.value;
           console.log(myCatalog.getCategoryByStatString(stat));
         };
 
-        //testLookups(myCatalog);
+        testLookups(myCatalog);
 
       })
       .catch(function (reason) {

@@ -5,7 +5,7 @@
 
   'use strict';
 
-  var catalogAPI, 
+  var catalogAPI,
     categories,
     metrics;
 
@@ -51,7 +51,7 @@
 
       return promise;
     };
-    
+
   }
 
   window.sharedCatalogAPI = function () {
