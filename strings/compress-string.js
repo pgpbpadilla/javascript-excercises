@@ -1,14 +1,25 @@
 debugger;
 var compressor = require('./compressor');
 
-var compressedString;
+var compressedString,
+  str;
 
-compressedString = compressor.compress('abbcccdddeaaaayyyiiioopppprrr', compressor.strategies.counting);
+str = 'abbcccdddeaaaayyyiiioopppprrr';
+console.log('expectedSize:', compressor.utils.expectedSize(str));
+compressedString = compressor.compress(str, compressor.strategies.counting);
 console.log('compressed:', compressedString);
-// compressedString = compressor.compress('abbcccdddeaaaayyyiiioopppprrr', compressor.strategies.counting);
 
-compressedString = compressor.compress('abbcccddddeeeee', compressor.strategies.counting);
+str = 'abbcccddddeeeee';
+console.log('expectedSize:', compressor.utils.expectedSize(str));
+compressedString = compressor.compress(str, compressor.strategies.counting);
 console.log('compressed:', compressedString);
 
-compressedString = compressor.compress('aaaaabbbbcccdde', compressor.strategies.counting);
+str = 'aaaaabbbbcccdde';
+console.log('expectedSize:', compressor.utils.expectedSize(str));
+compressedString = compressor.compress(str, compressor.strategies.counting);
+console.log('compressed:', compressedString);
+
+str = 'abcedfg';
+console.log('expectedSize:', compressor.utils.expectedSize(str));
+compressedString = compressor.compress(str, compressor.strategies.counting);
 console.log('compressed:', compressedString);

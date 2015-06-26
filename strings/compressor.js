@@ -47,30 +47,65 @@ module.exports = (function () {
     return compressedString;
   }
 
-  // function sizeForCompressedString() {
-  //   return 0;
-  // }
+  function sizeForCompressedString(aString) {
+    var size,
+      i,
+      lastChar,
+      lastCharCount;
+
+    size = 0;
+    lastChar = '';
+    lastCharCount = 0;
+
+    for (i = 0; i < aString.length; i = i + 1) {
+
+      if (lastChar !== aString.charAt(i)) {
+
+        size = size + 1 + lastCharCount.toString(10).length;
+
+        lastChar = aString.charAt(i); 
+        lastCharCount = 1; // this is the first time we see this char
+        
+      } else {
+
+        lastCharCount = lastCharCount + 1;
+
+      }
+    }
+
+    return size;
+  }
 
   function compress(aString, compressionStrategy) {
     console.log('Compressing string:', aString);
+
+    var result;
 
     if ('' === aString) {
       return aString;
     }
 
-    // var compressedSize = sizeForCompressedString(aString);
+    var compressedSize = sizeForCompressedString(aString);
 
-    // if (compressedSize >= aString.length) {
-    //   return aString;
-    // }
+    if (compressedSize >= aString.length) {
+      console.log('Not worth compressing...');
+      return aString;
+    }
 
-    return compressionStrategy(aString);
+    result = compressionStrategy(aString);
+
+    console.log('Length after compression: ', result.length);
+
+    return result;
   }
 
   return {
     compress: compress,
     strategies: {
       counting: compressByCounting
+    },
+    utils: {
+      expectedSize: sizeForCompressedString
     }
   };
 }());
