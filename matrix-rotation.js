@@ -108,46 +108,25 @@
 
           m[start][start + step] = m[end - step][start]; 
           logger.debug('MOVED top <- left\n', formatMatrix(matrix, [
-            {
-              row: end - step, 
-              col: start
-            },
-            {
-              row: start, 
-              col: start + step
-            }
+            { row: end - step, col: start },
+            { row: start, col: start + step}
           ]));
 
           m[end - step][start] = m[end][end - step]; 
           logger.debug('MOVED left <- bottom\n', formatMatrix(matrix, [
-            {
-              row: end,
-              col: end - step
-            },
-            {
-              row: end - step, 
-              col: start
-            }
+            { row: end, col: end - step },
+            { row: end - step, col: start }
           ]));
 
           m[end][end - step] = m[start + step][end]; 
           logger.log('MOVED bottom <- right\n', formatMatrix(matrix, [
-            {
-              row: start + step,
-              col: end
-            },
-            { 
-              row: end,
-              end: end - step
-            }
+            { row: start + step, col: end },
+            { row: end, end: end - step }
           ]));
 
           m[start + step][end] = tmp;
           logger.debug('MOVED right <- top[tmp]\n', formatMatrix(matrix, [
-            {
-              row: start + step,
-              col: end
-            }
+            { row: start + step, col: end }
           ]));
         }
       }
