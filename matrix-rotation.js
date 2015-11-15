@@ -18,6 +18,18 @@ module.exports.MatrixRotator = {
 
     return matrix;
   },
+    copyMatrix: function (m) {
+      var copy = [];
+
+      m.forEach(function (row, rowIdx) {
+        copy.push([]);
+        row.forEach(function (el) {
+          copy[rowIdx].push(el);
+        });
+      });
+
+      return copy;
+    },
   rotate: function (matrix) {
 
     // layer is zero-based
@@ -73,12 +85,28 @@ module.exports.MatrixRotator = {
 
 
 // Main program
+
+var prompt = require('prompt');
 var Rotator = exports.MatrixRotator;
-var matrix = Rotator.randomMatrix(2);
+
+prompt.start();
+
+prompt.get(['size'], function (err, result) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+
+  var matrix = Rotator.randomMatrix(parseInt(result.size, 10)),
+      mCopy = Rotator.copyMatrix(matrix);
 
 
-console.log('Random matrix:\n' + Rotator.toString(matrix));
 
-// in-place rotation
-Rotator.rotate(matrix);
-console.log('Rotated matrix:\n' + Rotator.toString(matrix));
+  console.log('Random matrix:\n' + Rotator.toString(matrix));
+
+  // in-place rotation
+  Rotator.rotate(matrix);
+  console.log('Original matrix:\n' + Rotator.toString(mCopy));
+  console.log('Rotated matrix:\n' + Rotator.toString(matrix));
+
+});
