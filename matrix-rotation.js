@@ -9,8 +9,16 @@
 
   var winston = require('winston');
 
-  var logger = new (winston.Logger)({
-    level: 'info',
+  var logger, logLevel = 'error';
+
+
+  if (process.argv.length >= 3) {
+    winston.log('info', 'Set logger.level: ' + process.argv[2]);
+    logLevel = process.argv[2];
+  }
+  
+  logger = new (winston.Logger)({
+    level: logLevel,
     transports: [
       new (winston.transports.Console)()
     ]
