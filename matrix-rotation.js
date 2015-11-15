@@ -26,20 +26,23 @@ module.exports.MatrixRotator = {
       var i, tmp, start, size, end;
 
       start = layer;
-      size = m.length - 2*layer;
-      end = start + size - 1;
+      end = m.length - 1 - layer;
 
       console.log('start', start);
-      console.log('size', size);
       console.log('end', end);
 
-      for (i = start; i < end; i = i + 1) {
-        console.log('i', i);
-        tmp = m[i][start]; // top
-        m[i][start] = m[start][start + size - i]; // left -> top
-        m[start][start + size - i] = m[end - i][end]; // bottom -> left
-        m[end - i][end] = m[end][i]; // right -> bottom
-        m[end][i] = tmp;// tmp -> right
+      for (i = 0; i < end; i = i + 1) {
+
+        tmp = m[start + i][start]; // top
+        console.log('saving top', tmp);
+        m[start + i][start] = m[end - i][start]; // top <- left
+        console.log('moving top <- left', matrix);
+        m[end - i][start] = m[end][end - i]; // left <- bottom
+        console.log('moving left <- bottom', matrix);
+        m[end][end - i] = m[start + i][end]; // bottom <- right
+        console.log('moving bottom <- right', matrix);
+        m[start + i][end] = tmp;// right <- tmp
+        console.log('moving right <- top[tmp]', matrix);
       }
     }
     
@@ -71,7 +74,7 @@ module.exports.MatrixRotator = {
 
 // Main program
 var Rotator = exports.MatrixRotator;
-var matrix = Rotator.randomMatrix(3);
+var matrix = Rotator.randomMatrix(2);
 
 
 console.log('Random matrix:\n' + Rotator.toString(matrix));
