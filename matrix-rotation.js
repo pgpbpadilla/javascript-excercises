@@ -35,26 +35,24 @@ module.exports.MatrixRotator = {
     // layer is zero-based
     function rotateLayer (m, layer) {
       
-      var i, tmp, start, size, end;
+        var step, tmp, start, size, end, maxSteps;
 
       start = layer;
       end = m.length - 1 - layer;
+        maxSteps = end - start;
 
-      console.log('start', start);
-      console.log('end', end);
 
-      for (i = 0; i < end; i = i + 1) {
+        for (step = 0; step < maxSteps; step = step + 1) {
+          
+          tmp = m[start][start + step]; // tmp <- top
 
-        tmp = m[start + i][start]; // top
-        console.log('saving top', tmp);
-        m[start + i][start] = m[end - i][start]; // top <- left
-        console.log('moving top <- left', matrix);
-        m[end - i][start] = m[end][end - i]; // left <- bottom
-        console.log('moving left <- bottom', matrix);
-        m[end][end - i] = m[start + i][end]; // bottom <- right
-        console.log('moving bottom <- right', matrix);
-        m[start + i][end] = tmp;// right <- tmp
-        console.log('moving right <- top[tmp]', matrix);
+          m[start][start + step] = m[end - step][start]; 
+
+          m[end - step][start] = m[end][end - step]; 
+
+          m[end][end - step] = m[start + step][end]; 
+
+          m[start + step][end] = tmp;
       }
     }
     
