@@ -38,27 +38,69 @@
   }
 
   function formatMatrix(matrix, markedEntries) {
-      var result = '';
+    var result = '';
 
-      matrix.forEach(function (row, rowIdx) {
-        row.forEach(function (value, colIdx) {
+    matrix.forEach(function (row, rowIdx) {
+      row.forEach(function (value, colIdx) {
 
-          if (undefined !== markedEntries 
-              && shouldMarkEntryAt(rowIdx, colIdx, markedEntries)) {
-            result += '>' + value + '<';
-          } else {
-            result += value;
-          }
+        if (undefined !== markedEntries 
+            && shouldMarkEntryAt(rowIdx, colIdx, markedEntries)) {
+          result += '>' + value + '<';
+        } else {
+          result += value;
+        }
 
-          result += '\t';
+        result += '\t';
 
-        });
-
-        result += '\n';
       });
 
-      return result;
+      result += '\n';
+    });
+
+    return result;
+  }
+
+  // layer is zero-based
+  function rotateLayer (m, layer) {
+    
+    var step, tmp, start, size, end, maxSteps;
+
+    start = layer;
+    end = m.length - 1 - layer;
+    maxSteps = end - start;
+
+    logger.debug('START', start);
+    logger.debug('END', end);
+
+    for (step = 0; step < maxSteps; step = step + 1) {
+      logger.debug('STEP - ', step);
+      
+      tmp = m[start][start + step]; // tmp <- top
+
+      m[start][start + step] = m[end - step][start]; 
+      logger.debug('MOVED top <- left\n', formatMatrix(m, [
+        { row: end - step, col: start },
+        { row: start, col: start + step}
+      ]));
+
+      m[end - step][start] = m[end][end - step]; 
+      logger.debug('MOVED left <- bottom\n', formatMatrix(m, [
+        { row: end, col: end - step },
+        { row: end - step, col: start }
+      ]));
+
+      m[end][end - step] = m[start + step][end]; 
+      logger.log('MOVED bottom <- right\n', formatMatrix(m, [
+        { row: start + step, col: end },
+        { row: end, end: end - step }
+      ]));
+
+      m[start + step][end] = tmp;
+      logger.debug('MOVED right <- top[tmp]\n', formatMatrix(m, [
+        { row: start + step, col: end }
+      ]));
     }
+  }
 
   module.exports.MatrixRotator = {
     randomMatrix: function (size) {
@@ -87,52 +129,11 @@
 
       return copy;
     },
-    rotate: function (matrix) {
+    rotate: function (matrix, strategy) {
 
-      // layer is zero-based
-      function rotateLayer (m, layer) {
-        
-        var step, tmp, start, size, end, maxSteps;
-
-        start = layer;
-        end = m.length - 1 - layer;
-        maxSteps = end - start;
-
-        logger.debug('START', start);
-        logger.debug('END', end);
-
-        for (step = 0; step < maxSteps; step = step + 1) {
-          logger.debug('STEP - ', step);
-          
-          tmp = m[start][start + step]; // tmp <- top
-
-          m[start][start + step] = m[end - step][start]; 
-          logger.debug('MOVED top <- left\n', formatMatrix(matrix, [
-            { row: end - step, col: start },
-            { row: start, col: start + step}
-          ]));
-
-          m[end - step][start] = m[end][end - step]; 
-          logger.debug('MOVED left <- bottom\n', formatMatrix(matrix, [
-            { row: end, col: end - step },
-            { row: end - step, col: start }
-          ]));
-
-          m[end][end - step] = m[start + step][end]; 
-          logger.log('MOVED bottom <- right\n', formatMatrix(matrix, [
-            { row: start + step, col: end },
-            { row: end, end: end - step }
-          ]));
-
-          m[start + step][end] = tmp;
-          logger.debug('MOVED right <- top[tmp]\n', formatMatrix(matrix, [
-            { row: start + step, col: end }
-          ]));
-        }
-      }
-      
       var layers = Math.ceil(matrix.length/2), 
           l;
+      
       logger.debug('LAYERS', layers);
 
       for (l = 0; l < layers; l = l + 1) {
