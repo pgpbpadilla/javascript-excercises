@@ -60,6 +60,25 @@
     return result;
   }
 
+  // http://stackoverflow.com/a/3488745/400544
+  function rotateSO(m) {
+    var f, c, x, y, n, temp;
+
+    f = Math.floor(m.length/2);
+    c = Math.ceil(m.length/2);
+    n = m.length;
+
+    for (x = 0; x <= f - 1; x = x + 1) {
+      for (y = 0; y <= f - 1; y = y + 1) {
+        temp = m[x][y];
+        m[x][y] = m[y][n-1-x];
+        m[y][n-1-x] = m[n-1-x][n-1-y];
+        m[n-1-x][n-1-y] = m[n-1-y][x];
+        m[n-1-y][x] = temp;
+      }
+    }
+    return m;
+  }
   // layer is zero-based
   function rotateLayer (m, layer) {
     
@@ -134,6 +153,10 @@
       var layers = Math.ceil(matrix.length/2), 
           l;
       
+      if ('so' === strategy) {
+        return rotateSO(matrix);
+      } 
+
       logger.debug('LAYERS', layers);
 
       for (l = 0; l < layers; l = l + 1) {
@@ -157,7 +180,7 @@ var Rotator = exports.MatrixRotator;
 
 prompt.start();
 
-prompt.get(['size'], function (err, result) {
+prompt.get(['size', 'strategy'], function (err, result) {
   if (err) {
     console.log(err);
     return;
@@ -166,12 +189,10 @@ prompt.get(['size'], function (err, result) {
   var matrix = Rotator.randomMatrix(parseInt(result.size, 10)),
       mCopy = Rotator.copyMatrix(matrix);
 
-
-
   console.log('Random matrix:\n' + Rotator.toString(matrix));
 
   // in-place rotation
-  Rotator.rotate(matrix);
+  Rotator.rotate(matrix, result.strategy);
   console.log('Original matrix:\n' + Rotator.toString(mCopy));
   console.log('Rotated matrix:\n' + Rotator.toString(matrix));
 
