@@ -68,13 +68,32 @@
     c = Math.ceil(m.length/2);
     n = m.length;
 
+    logger.debug('Total moves needed per layer: ', f*c);
+
     for (x = 0; x <= f - 1; x = x + 1) {
       for (y = 0; y <= f - 1; y = y + 1) {
+        logger.debug('[x, y]:[' + x + ',' + y + ']');
         temp = m[x][y];
         m[x][y] = m[y][n-1-x];
+        logger.debug(formatMatrix(m, [
+          { row: x, col: y}, 
+          { row: y, col: n-1-x}
+        ]));
         m[y][n-1-x] = m[n-1-x][n-1-y];
+        logger.debug(formatMatrix(m, [
+          { row: y, col: n-1-x}, 
+          { row: n-1-x, col: n-1-y}
+        ]));
         m[n-1-x][n-1-y] = m[n-1-y][x];
+        logger.debug(formatMatrix(m, [
+          { row: n-1-x, col: n-1-y}, 
+          { row: n-1-y, col: x}
+        ]));
         m[n-1-y][x] = temp;
+        logger.debug(formatMatrix(m, [
+          { row: n-1-y, col: x}, 
+          { row: x, col: y}
+        ]));
       }
     }
     return m;
@@ -87,7 +106,7 @@
     start = layer;
     end = m.length - 1 - layer;
     maxSteps = end - start;
-
+  
     logger.debug('START', start);
     logger.debug('END', end);
 
